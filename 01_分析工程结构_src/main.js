@@ -8,3 +8,7 @@ const app = createApp(App)
 console.log(app)
 // 挂载
 app.mount('#app')
+// 2秒后卸载app
+setTimeout(() => {
+  app.unmount('#app')
+}, 2000)
