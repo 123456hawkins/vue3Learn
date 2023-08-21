@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    let person = {
+      name: 'zhangsan',
+      age: 18
+    }
+
+
+    // 模拟vue2中的响应式
+    let p2 = {}
+    Object.defineProperty(p2, 'name', {
+      // 定义是否可以修改
+      configurable: true,
+      get () {//读取时
+        console.log('发生了读取');
+        return person.name
+      },
+      set (value) {//修改时
+        console.log('发生了修改');
+        person.name = value
+      }
+    })
+    Object.defineProperty(p2, 'age', {
+      // 定义是否可以修改
+      configurable: true,
+      get () {//读取时
+        console.log('发生了读取');
+        return person.name
+      },
+      set (value) {//修改时
+        console.log('发生了修改');
+        person.name = value
+      }
+    })
+
+    // vue3中的响应式
+    const p = new Proxy(person, {
+      get (target, propName) {
+        // target代表源对象，proName代表属性
+        console.log(`有人读取了${target}的${propName}属性`);
+        return target[propName]
+      },
+      // 修改和追加属性都调用
+      set (target, propName, value) {
+        console.log(`有人修改了${target}的${propName}属性`);
+        target[propName] = value
+        return value
+      },
+      deleteProperty (target, propName) {
+        console.log(`有人删除了${target}的${propName}属性`);
+        return delete target[propName]
+      }
+    })
+
+  </script>
+</body>
+
+</html>
