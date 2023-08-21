@@ -3,29 +3,29 @@
   <h3>一个人的信息</h3>
   <h4>姓名:{{ person.name }}</h4>
   <h4>年龄:{{ person.age }}</h4>
+  <h4>姓:<input v-model="person.fname"></h4>
+  <h4>名:<input v-model="person.lname"></h4>
+
+  <h4>计算属性(全名):{{ fullName }}</h4>
+  <h4>计算属性(全名):<input v-model="person.fullName"></h4>
   <h5 v-if="person.sex">性别{{ person.sex }}</h5>
   <button @click="test">测试触发Demo</button>
   <slot name="qwe"></slot>
 </template>
 
 <script>
-import { reactive, } from 'vue'
+import { reactive, computed } from 'vue'
 export default {
   name: 'App',
-  props: ['msg', 'name'],
-  // 指明hello自定义指令
-  // emits: ['hello'],
   components: {
   },
   beforeCreate () {
     console.log('----beforeCreate-----');
   },
-  setup (props, context, c) {
-    // props值为对象，指组件外部传递过来的，且组件内部声明接受
-    // context:上下文1对象，包含attrs：值为对象，包含组件外部传递过来但没有声明的props，slots：收到插槽的内容，emit：自定义事件函数
-    console.log('---setup执行----', this);
-    console.log('setup接受的参数：', props, context, c);
+  setup () {
     let person = reactive({
+      fname: '张',
+      lname: '三',
       name: 'zhangsan',
       age: 10,
       job: {
@@ -40,15 +40,28 @@ export default {
       hobby: ['抽烟', '喝酒', '烫头']
     })
 
-    // 方法
-    function test () {
-      // 触发自定义指令
-      context.emit('hello', 666)
-    }
+
+    // 计算属性 简写形式
+    let fullName = computed(() => {
+      return person.fname + '-' + person.lname;
+    })
+    // 计算属性完整写法
+    person.fullName = computed({
+      get () {
+        return person.fname + '-' + person.lname;
+      },
+      set (value) {
+        const nameArr = value.split('-')
+        person.fname = nameArr[0]
+
+        person.lname = nameArr[1]
+      }
+
+    })
 
     return {
-      test,
-      person
+      person,
+      fullName,
     }
   }
 }
