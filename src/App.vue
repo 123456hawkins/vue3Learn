@@ -1,68 +1,32 @@
 <template>
   <!-- vue3组件目录可以没有根标签 -->
-  <h3>一个人的信息</h3>
-  <h4>姓名:{{ person.name }}</h4>
-  <h4>年龄:{{ person.age }}</h4>
-  <h5 v-if="person.sex">性别{{ person.sex }}</h5>
-  <h4>职业:{{ person.job.type }}</h4>
-  <h4>薪水:{{ person.job.salary }}</h4>
-  <h5>c:{{ person.job.a.b.c }}</h5>
-  <h5>hobby:{{ person.hobby }}</h5>
-  <button @click="changInfo"> 改变信息</button>
-  <button @click="addSex">添加性别</button>
-  <button @click="delSex">删除性别</button>
+  <!-- hello是自定义指令 -->
+  <demo msg="111" name="222" @hello="showHelloMessage">
+    <!-- 随便写个插槽 -->
+    <template v-slot:qwe>
+      <span>上规格</span>
+    </template>
+  </demo>
 </template>
 
 <script>
 import { reactive, } from 'vue'
+import Demo from './components/demo.vue'
 export default {
   name: 'App',
   components: {
+    Demo
   },
   setup () {
-
-
-    let person = reactive({
-      name: 'zhangsan',
-      age: 10,
-      job: {
-        type: '前端工程师',
-        salary: '30k',
-        a: {
-          b: {
-            c: 1
-          }
-        }
-      },
-      hobby: ['抽烟', '喝酒', '烫头']
-    })
-
-    // 方法
-    function sayHello () {
-      alert(`我叫${name.value},我${age.value}岁`)
-    }
-
-    function changInfo () {
-      // 要加value
-      person.job.type = 'ui'
-      person.job.salary = 900
-      person.job.a.b.c = 0
-    }
-    function addSex () {
-      person.sex = 'nan'
-    }
-    function delSex () {
-      delete person.sex
+    function showHelloMessage (value) {
+      alert(`触发了hello自定义事件,我收到的参数是${value}`)
     }
 
     return {
-      person,
-      sayHello,
-      changInfo,
-      addSex,
-      delSex
+      showHelloMessage
     }
   }
+
 }
 </script>
 
