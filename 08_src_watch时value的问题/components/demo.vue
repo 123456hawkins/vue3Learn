@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { reactive, ref, watch, watchEffect } from 'vue';
+import { reactive, ref, watch } from 'vue';
 export default {
   name: 'App',
   components: {
@@ -39,19 +39,9 @@ export default {
     console.log(sum);
     console.log(text);
     console.log(person);
-
-    // 监视
-    // watch(sum, (newv, oldv) => {
-    //   console.log('00发生变化', newv, oldv);
-    // }, { deep: true })
-
-    // watcheffect
-    // watchEffect类似于computed，但后者更注重计算出来的值，前者更注重过程
-    watchEffect(() => {
-      // 不指明监视哪个属性，如果回调函数中被使用，就发生监视
-      const x1 = sum.value
-      console.log('watchEffect回调执行');
-    })
+    watch(person, (newv, oldv) => {
+      console.log('00发生变化', newv, oldv);
+    }, { deep: true })
 
     return {
       sum,
