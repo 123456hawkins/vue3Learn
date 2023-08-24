@@ -2,67 +2,30 @@
   <!-- vue3组件目录可以没有根标签 -->
   <h2>求和：{{ sum }}</h2>
   <button @click="sum++">点我++</button>
+  <h2>鼠标坐标：x:{{ point.x }},y:{{ point.y }}</h2>
 </template>
 
 <script>
-import { onBeforeMount, onBeforeUnmount, onBeforeUpdate, onMounted, onUpdated, reactive, ref, watch, watchEffect } from 'vue';
+import { ref } from 'vue';
+import usePoint from '../hooks/usePoint'
 export default {
   name: 'App',
   components: {
   },
   setup () {
     let sum = ref(19)
-
+    // usePoint相当于mixin，方便复用js代码
+    let point = usePoint()
     // 组合式api使用生命周期钩子
     // 组合式生命周期钩子执行时机比配置项的要快
 
-    onBeforeMount(() => {
-      console.log('---onBeforeMount-----');
-    })
-    onMounted(() => {
-      console.log('---onMounted-----');
-    })
-    onBeforeUpdate(() => {
-      console.log('---onBeforeUpdate-----');
-    })
-    onUpdated(() => {
-      console.log('---onUpdated-----');
-    })
-    onBeforeUnmount(() => {
-      console.log('---onBeforeUnmount-----');
-    })
-    onMounted(() => {
-      console.log('---onMounted-----');
-    })
 
     return {
       sum,
+      point
     }
   },
-  beforeCreate () {
-    console.log('----beforeCreate-----');
-  },
-  created () {
-    console.log('----created-------');
-  },
-  beforeMount () {
-    console.log('----beforeMount-------');
-  },
-  mounted () {
-    console.log('---mounted-----');
-  },
-  beforeUpdate () {
-    console.log('----beforeUpdate-------');
-  },
-  updated () {
-    console.log('----Updated-------');
-  },
-  beforeUnmount () {
-    console.log('---beforeUnmount');
-  },
-  unmounted () {
-    console.log('----unmounted----');
-  }
+
 }
 </script>
 
